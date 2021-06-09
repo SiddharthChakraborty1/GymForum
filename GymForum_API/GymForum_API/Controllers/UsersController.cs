@@ -41,6 +41,46 @@ namespace GymForum_API.Controllers
             return tblUser;
         }
 
+        // GET: api/Users/email
+        [HttpGet("email/{email}")]
+        public async Task<ActionResult<TblUser>> GetUserByEmail(string email)
+        {
+            bool userPresent = false;
+            TblUser registeredUser = null;
+            List<TblUser> userList = new List<TblUser>();
+            var users = await _context.TblUsers.ToListAsync();
+            users.ForEach(user =>
+            {
+                if (user.UserEmail == email)
+                {
+                    userPresent = true;
+                    registeredUser = user;
+                }
+
+
+            });
+
+            if(userPresent)
+            {
+                return registeredUser;
+                
+            }
+            else
+            {
+                TblUser nonRegisterdUser = new TblUser()
+                {
+                    UserId = -1,
+                    UserName = "null",
+                    UserEmail = "null",
+                    UserPassword = "null",
+                    UserDesignation = "null",
+                    UserExperience = -1
+                };
+                return nonRegisterdUser;
+            }
+
+        }
+
         // PUT: api/Users/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
@@ -81,6 +121,44 @@ namespace GymForum_API.Controllers
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTblUser", new { id = tblUser.UserId }, tblUser);
+        }
+
+        //POST : api/Users/email
+        [HttpPost("email/{email}")]
+        public async Task<ActionResult<TblUser>> RegisterUserWithEmail(TblUser tblUser, string email)
+        {
+            bool userPresent = false;
+            List<TblUser> userList = new List<TblUser>();
+            var users = await _context.TblUsers.ToListAsync();
+            users.ForEach(user =>
+            {
+            if (user.UserEmail == tblUser.UserEmail)
+                {
+                    userPresent = true;
+                }
+
+            });
+            if(userPresent)
+            {
+                TblUser nullUser = new TblUser()
+                {
+                    UserId = -1,
+                    UserName= "null",
+                    UserEmail = "null",
+                    UserPassword = "null",
+                    UserDesignation = "null",
+                    UserExperience = -1
+
+                };
+                return nullUser;
+            }
+            else
+            {
+                _context.TblUsers.Add(tblUser);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction("GetTblUser", new { id = tblUser.UserId }, tblUser);
+            }
+            
         }
 
         // DELETE: api/Users/5
