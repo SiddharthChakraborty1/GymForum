@@ -15,6 +15,7 @@ import {
   Typography,
   Button,
 } from "@material-ui/core";
+import {motion} from 'framer-motion'
 import React, { useState, useEffect } from "react";
 import LockIcon from "@material-ui/icons/Lock";
 
@@ -60,16 +61,22 @@ const useStyles = makeStyles((theme) => ({
     margin: "10px",
     width: "80%",
   },
-  button: {
-    margin: "10px",
-    backgroundColor: "#4FA29E",
-    color: "#000",
-    width: "80%",
-    "&:hover": {
-      backgroundColor: "#fff",
-      color: "#000",
-    },
-  },
+  buttonDiv:{
+    margin: '10px',
+    borderRadius: '5px',
+    backgroundColor: '#4FA29E',
+    color: '#000',
+    width: '80%',
+    '&:hover':{
+        backgroundColor:'#fff',
+        color: '#000'
+    }
+},
+button:{
+    color:'#000',
+    width: '100%'   
+
+},
   formControl: {
     margin: theme.spacing(1),
     width: "80%",
@@ -117,6 +124,10 @@ const Register = () => {
 
   const handleOnClick = (e) => {
     e.preventDefault();
+    var pattern = new RegExp(
+      /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
+    );
+
     if (values.email === "" ||
     values.password === "" ||
     values.name === "" ||
@@ -125,11 +136,34 @@ const Register = () => {
     values.experience === ""
     ) {
       alert("Fields cannot be empty");
-    } else if (/* give condition for email validation*/ false) {
+    }
+    else if(!pattern.test(values.email)){
+      alert('Invalid email format')
+
+    } 
+    else if(values.password.length < 6)
+    {
+      alert('Password must be atleast 6 characters long')
+    }
+    else if (values.password !== values.confPassword) {
+      alert('passwords do not match')
     } else {
-      // call the service method to check if the user exists and log them in
+      const user = {
+        Name : values.name,
+        Email: values.email,
+        Password: values.password,
+        Designation: values.designation,
+        Experience: values.experience
+      }
+
+      // Send this user object to the service method so it can be used with axios
     }
   };
+
+  const fadeDown = {
+    hidden: {opacity: 0, y: -350},
+    visible :{opacity: 1, y:1}
+  }
 
   return (
     <div className={classes.root}>
@@ -145,6 +179,14 @@ const Register = () => {
         </Toolbar>
       </AppBar>
       <ThemeProvider theme={themes}>
+      
+        <motion.div
+        variants={fadeDown}
+        initial="hidden"
+        animate="visible"
+        transition={{duration:1.3}}
+        
+        >
         <Paper className={classes.bgPaper} elevation={10}>
           <Avatar className={classes.avatar}>
             <LockIcon style={{ color: "#66FCF1" }} />
@@ -185,6 +227,7 @@ const Register = () => {
             value={values.password}
             onChange={handleOnChange}
             margin="dense"
+            helperText="at least 6 characters"
             placeholder="Enter Password"
             required
             label="Password"
@@ -221,9 +264,7 @@ const Register = () => {
               onChange={handleOnChange}
               label="Designation"
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
+              
               <MenuItem value={"Certified Trainer"}>Certified Trainer</MenuItem>
               <MenuItem value={"Regular Gym Goer"}>Regular Gym Goer</MenuItem>
               <MenuItem value={"Certified Nutritionist"}>
@@ -243,10 +284,14 @@ const Register = () => {
             required
             label="Experience"
           />
-
+          <motion.div
+          className={classes.buttonDiv}
+          whileHover={{scale: 1.05}}
+          whileTap={{scale: 0.9}}>
           <Button className={classes.button} onClick={handleOnClick}>
             Register
           </Button>
+          </motion.div>
           <div style={{ display: "flex", flexDirection: "row" }}>
             <Typography>Already have an account ? |</Typography>
             <a className={classes.anchor} href="/Login">
@@ -254,6 +299,7 @@ const Register = () => {
             </a>
           </div>
         </Paper>
+        </motion.div>
       </ThemeProvider>
     </div>
   );

@@ -1,6 +1,7 @@
 import {Avatar, AppBar, createMuiTheme, Grid, makeStyles, Paper, TextField, ThemeProvider, Toolbar, Typography, Button } from '@material-ui/core'
 import React, {useState, useEffect} from 'react'
 import LockIcon from '@material-ui/icons/Lock';
+import {motion} from 'framer-motion'
 import './login.css'
 
 const themes = createMuiTheme({
@@ -44,8 +45,9 @@ const useStyles = makeStyles(t=>({
         margin: '10px',
         width: '80%'
     },
-    button:{
+    buttonDiv:{
         margin: '10px',
+        borderRadius: '5px',
         backgroundColor: '#4FA29E',
         color: '#000',
         width: '80%',
@@ -53,6 +55,11 @@ const useStyles = makeStyles(t=>({
             backgroundColor:'#fff',
             color: '#000'
         }
+    },
+    button:{
+        color:'#000',
+        width: '100%'   
+
     },
     anchor: {
         textDecoration: 'none',
@@ -91,15 +98,28 @@ const Login = () => {
 
     const handleOnClick=(e)=>{
         e.preventDefault();
+        var pattern = new RegExp(
+            /^(("[\w-\s]+")|([\w-]+(?:\.[\w-]+)*)|("[\w-\s]+")([\w-]+(?:\.[\w-]+)*))(@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$)|(@\[?((25[0-5]\.|2[0-4][0-9]\.|1[0-9]{2}\.|[0-9]{1,2}\.))((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\.){2}(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[0-9]{1,2})\]?$)/i
+          );
         if(values.email === '' || values.password === '')
         {
             alert('Fields cannot be empty');
         }
-        else if(/* give condition for email validation*/ false){
+        else if(!pattern.test(values.email)){
+            alert('Invalid email format')
 
+        }
+        else if(values.password.length < 6)
+        {
+            alert('Invalid password length')
         }
         else
         {
+            const loginObj = {
+                Email: values.email,
+                Password: values.password
+            }
+            // send this loginObj to the service method where it can be used with axios
             // call the service method to check if the user exists and log them in
             
             
@@ -120,6 +140,10 @@ const Login = () => {
                 </Toolbar>
             </AppBar>
             <ThemeProvider theme={themes}>
+             <motion.div
+             initial={{opacity: 0, y: -350}}
+             animate={{opacity: 1, y: 0}}
+             transition={{duration: 1.3}}>
             <Paper className={classes.bgPaper} elevation={10}>
                 <Avatar className={classes.avatar}><LockIcon style={{color: '#66FCF1'}} /></Avatar>
                 <Typography><h4 style={{margin: '0px'}}>User Login</h4></Typography>
@@ -145,7 +169,14 @@ const Login = () => {
                  placeholder='Enter Password'
                  required
                  label='Password'/>
-                 <Button className={classes.button} onClick={handleOnClick}> Log In</Button>
+                <motion.div
+                className={classes.buttonDiv}
+                whileHover={{scale: 1.05}}
+                whileTap={{scale: 0.9}}
+                
+                >
+                <Button className={classes.button}  onClick={handleOnClick}> Log In</Button>
+                </motion.div>
                  <div style={{display: 'flex', flexDirection: 'row'}}>
                  <Typography >
                      Don't have an account ?  |
@@ -154,6 +185,7 @@ const Login = () => {
                  style={{marginLeft:'3px'}}>Register</Typography></a>
                  </div>
             </Paper>
+            </motion.div>   
             </ThemeProvider>
             
         </div>
