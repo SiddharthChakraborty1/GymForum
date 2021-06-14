@@ -88,6 +88,12 @@ namespace GymForum_API.Models
 
                 entity.Property(e => e.PostAvailablity).HasColumnName("post_availablity");
 
+                entity.Property(e => e.PostText)
+                    .IsRequired()
+                    .HasMaxLength(500)
+                    .IsUnicode(false)
+                    .HasColumnName("post_text");
+
                 entity.Property(e => e.PostUploadDate)
                     .HasColumnType("date")
                     .HasColumnName("post_upload_date");

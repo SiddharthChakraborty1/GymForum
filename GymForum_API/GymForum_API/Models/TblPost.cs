@@ -16,6 +16,7 @@ namespace GymForum_API.Models
         public int PostUserId { get; set; }
         public DateTime PostUploadDate { get; set; }
         public int PostAvailablity { get; set; }
+        public string PostText { get; set; }
 
         public virtual TblUser PostUser { get; set; }
         public virtual ICollection<TblAnswer> TblAnswers { get; set; }

@@ -2,7 +2,9 @@ import {Avatar, AppBar, createMuiTheme, Grid, makeStyles, Paper, TextField, Them
 import React, {useState, useEffect} from 'react'
 import LockIcon from '@material-ui/icons/Lock';
 import {motion} from 'framer-motion'
+import {useHistory} from 'react-router-dom'
 import './login.css'
+import { loginUserWithEmail } from '../../Services/authentication.service';
 
 const themes = createMuiTheme({
     palette: {
@@ -79,6 +81,7 @@ const initialValues= {
 
 
 const Login = () => {
+    const history = useHistory();
     useEffect(()=>{
         document.body.style.backgroundColor="#1F2833"
     },[])
@@ -116,9 +119,29 @@ const Login = () => {
         else
         {
             const loginObj = {
-                Email: values.email,
-                Password: values.password
+                UserEmail: values.email,
+                UserPassword: values.password
             }
+
+            loginUserWithEmail(loginObj).then(data=>{
+                console.log(data);
+                if(data.userId === -1)
+                {
+                    alert('User does not exist');
+                }
+                else if(data.userPassword !== loginObj.UserPassword)
+                {
+                    alert('Incorrect Password');
+                }
+                else if(data.userPassword === loginObj.UserPassword)
+                {
+                    alert('Logged In Successfully');
+                    // storing the user's id in the local storage
+                    localStorage.setItem('userId',data.userId);
+                    history.push('/UserDashboard');
+                }
+
+            })
             // send this loginObj to the service method where it can be used with axios
             // call the service method to check if the user exists and log them in
             
@@ -128,12 +151,12 @@ const Login = () => {
 
     return (
         <div className={classes.root}>
-            <AppBar position='absolute' className={classes.appBar}>
-                <Toolbar>
+            <AppBar position='static' className={classes.appBar}>
+                <Toolbar variant="dense">
                     <Grid container>
                         <Grid item>
-                           <Typography>
-                               <h4>Gym Forum</h4>
+                           <Typography variant='h6'>
+                               Gym Forum
                            </Typography>
                         </Grid>
                     </Grid>
