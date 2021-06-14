@@ -18,6 +18,7 @@ import {
 import {motion} from 'framer-motion'
 import React, { useState, useEffect } from "react";
 import LockIcon from "@material-ui/icons/Lock";
+import { registerUserWithEmail } from "../../Services/authentication.service";
 
 const themes = createMuiTheme({
   palette: {
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   bgPaper: {
     backgroundColor: "#000",
     color: "#fff",
-    marginTop: "100px",
+    marginTop: "80px",
     width: "25vw",
     height: "auto",
     borderRadius: "10px",
@@ -58,11 +59,11 @@ const useStyles = makeStyles((theme) => ({
     
   },
   textField: {
-    margin: "10px",
+    marginBottom: "10px",
     width: "80%",
   },
   buttonDiv:{
-    margin: '10px',
+    marginBottom: '10px',
     borderRadius: '5px',
     backgroundColor: '#4FA29E',
     color: '#000',
@@ -149,12 +150,26 @@ const Register = () => {
       alert('passwords do not match')
     } else {
       const user = {
-        Name : values.name,
-        Email: values.email,
-        Password: values.password,
-        Designation: values.designation,
-        Experience: values.experience
+        UserName : values.name,
+        UserEmail: values.email,
+        UserPassword: values.password,
+        UserDesignation: values.designation,
+        UserExperience: values.experience
       }
+
+      registerUserWithEmail(user).then(data=>{
+        if(data.userId === -1)
+        {
+          alert('This email is already linked with an account');
+        }
+        else
+        {
+          alert('Registered Successfully!');
+          // storing user's id in the local storage
+          localStorage.setItem('userId',data.userId);
+        }
+      });
+    
 
       // Send this user object to the service method so it can be used with axios
     }

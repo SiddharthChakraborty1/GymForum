@@ -12,7 +12,6 @@ namespace GymForum_API.Models
             TblAnswers = new HashSet<TblAnswer>();
             TblPosts = new HashSet<TblPost>();
         }
-        //Create custom end points as needed
 
         public int UserId { get; set; }
         public string UserName { get; set; }
