@@ -82,9 +82,9 @@ namespace GymForum_API.Models
 
                 entity.ToTable("tbl_posts");
 
-                entity.Property(e => e.PostId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("post_id");
+                entity.Property(e => e.PostId).HasColumnName("post_id");
+
+                entity.Property(e => e.PostAnonymity).HasColumnName("post_anonymity");
 
                 entity.Property(e => e.PostAvailablity).HasColumnName("post_availablity");
 

@@ -84,6 +84,10 @@ const Login = () => {
     const history = useHistory();
     useEffect(()=>{
         document.body.style.backgroundColor="#1F2833"
+        if(localStorage.getItem('userID') != null)
+        {
+            history.push('/UserDashboard');
+        }
     },[])
     const [values, setValues] = useState(initialValues);
 

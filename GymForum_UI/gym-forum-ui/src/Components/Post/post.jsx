@@ -21,6 +21,7 @@ import {
 import {motion} from 'framer-motion';
 import { useHistory } from "react-router-dom";
 import ContactSupportIcon from "@material-ui/icons/ContactSupport";
+import { uploadQuestion } from "../../Services/upload.service";
 
 const themes = createMuiTheme({
   palette: {
@@ -128,6 +129,24 @@ const Post = () => {
       else if(question.length < 20)
       {
           alert('Question might be too short, add more details')
+      }
+      else
+      {
+        const post = {
+          PostUserId : localStorage.getItem('userId'),
+          PostUploadDate : new Date().toISOString(),
+          PostAvailablity : 1,
+          PostText : question,
+          PostAnonymity : checked? 1 : 0
+        }
+
+        
+
+        uploadQuestion(post).then(data=>{
+          console.log(data);
+        })
+
+        // send the post object to the service method to add this question to the database
       }
   }
   return (
