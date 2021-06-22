@@ -20,14 +20,14 @@ namespace GymForum_API.Controllers
             _context = context;
         }
 
-        // GET: api/Answers
+        // GET: api/TblAnswers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<TblAnswer>>> GetTblAnswers()
         {
             return await _context.TblAnswers.ToListAsync();
         }
 
-        // GET: api/Answers/5
+        // GET: api/TblAnswers/5
         [HttpGet("{id}")]
         public async Task<ActionResult<TblAnswer>> GetTblAnswer(int id)
         {
@@ -41,7 +41,7 @@ namespace GymForum_API.Controllers
             return tblAnswer;
         }
 
-        // PUT: api/Answers/5
+        // PUT: api/TblAnswers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public async Task<IActionResult> PutTblAnswer(int id, TblAnswer tblAnswer)
@@ -72,32 +72,18 @@ namespace GymForum_API.Controllers
             return NoContent();
         }
 
-        // POST: api/Answers
+        // POST: api/TblAnswers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public async Task<ActionResult<TblAnswer>> PostTblAnswer(TblAnswer tblAnswer)
         {
             _context.TblAnswers.Add(tblAnswer);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (TblAnswerExists(tblAnswer.AnswerId))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetTblAnswer", new { id = tblAnswer.AnswerId }, tblAnswer);
         }
 
-        // DELETE: api/Answers/5
+        // DELETE: api/TblAnswers/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTblAnswer(int id)
         {

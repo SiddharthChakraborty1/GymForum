@@ -40,9 +40,7 @@ namespace GymForum_API.Models
 
                 entity.ToTable("tbl_answers");
 
-                entity.Property(e => e.AnswerId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("answer_id");
+                entity.Property(e => e.AnswerId).HasColumnName("answer_id");
 
                 entity.Property(e => e.AnswerApproved).HasColumnName("answer_approved");
 

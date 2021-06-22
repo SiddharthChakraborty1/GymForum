@@ -70,6 +70,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#1F2833",
     margin: "10px",
   },
+  gridItem:{
+    marginLeft: '10px'
+  },
   navButton:{
     color: '#fff',
     borderColor: '#fff',
@@ -108,6 +111,10 @@ const useStyles = makeStyles((theme) => ({
 const Post = () => {
   useEffect(() => {
     document.body.style.backgroundColor = "#1F2833";
+    if(localStorage.getItem('userId') == null)
+    {
+      history.push('/')
+    }
   }, []);
   const [checked, setChecked] = useState(false);
   const [question, setQuestion] = useState('');
@@ -160,7 +167,7 @@ const Post = () => {
               </Typography>
             </Grid>
             <Grid item sm></Grid>
-            <Grid item>
+            <Grid item className={classes.gridItem}>
               <Button
                 onClick={(e) => {
                   history.push("/UserDashboard");
@@ -169,6 +176,18 @@ const Post = () => {
                 variant="outlined"
               >
                 Back to feed
+              </Button>
+            </Grid>
+            <Grid item className={classes.gridItem}>
+              <Button
+                onClick={(e) => {
+                  localStorage.removeItem('userId');
+                  history.push("/");
+                }}
+                className={classes.navButton}
+                variant="outlined"
+              >
+                Log Out
               </Button>
             </Grid>
           </Grid>

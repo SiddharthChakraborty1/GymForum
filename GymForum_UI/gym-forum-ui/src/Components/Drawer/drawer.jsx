@@ -22,7 +22,7 @@ import InfoIcon from '@material-ui/icons/Info';
 
 
 import { Button } from '@material-ui/core';
-import Login from '../Login/login';
+
 
 const drawerWidth = 240;
 
@@ -80,6 +80,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-end',
   },
   content: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
     flexGrow: 1,
    
     padding: theme.spacing(3),
@@ -179,9 +183,7 @@ export default function PersistentDrawerLeft() {
       >
         <div className={classes.drawerHeader} />
         <h1>This are is for the main content</h1>
-        <Router>
-            <Route exact path='/Login' component={Login}/>
-        </Router>
+       
       </main>
     </div>
   );

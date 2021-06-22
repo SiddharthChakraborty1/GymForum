@@ -15,7 +15,7 @@ const themes = createMuiTheme({
     }
 })
 
-const useStyles = makeStyles(t=>({
+const useStyles = makeStyles(theme=>({
     root:{
         display: 'flex',
         flexDirection: 'column',
@@ -84,7 +84,7 @@ const Login = () => {
     const history = useHistory();
     useEffect(()=>{
         document.body.style.backgroundColor="#1F2833"
-        if(localStorage.getItem('userID') != null)
+        if(localStorage.getItem('userId') != null)
         {
             history.push('/UserDashboard');
         }

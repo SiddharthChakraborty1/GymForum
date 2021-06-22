@@ -18,6 +18,7 @@ import {
 import {motion} from 'framer-motion'
 import React, { useState, useEffect } from "react";
 import LockIcon from "@material-ui/icons/Lock";
+import { useHistory } from "react-router-dom";
 import { registerUserWithEmail } from "../../Services/authentication.service";
 
 const themes = createMuiTheme({
@@ -109,6 +110,7 @@ const Register = () => {
   useEffect(() => {
     document.body.style.backgroundColor = "#1F2833";
   }, []);
+  const history = useHistory();
   const [values, setValues] = useState(initialValues);
 
   const classes = useStyles();
@@ -167,6 +169,7 @@ const Register = () => {
           alert('Registered Successfully!');
           // storing user's id in the local storage
           localStorage.setItem('userId',data.userId);
+          history.pushState('/UserDashboard');
         }
       });
     
