@@ -151,6 +151,8 @@ const Post = () => {
 
         uploadQuestion(post).then(data=>{
           console.log(data);
+          alert('Question posted successfully')
+          history.push('/UserDashboard')
         })
 
         // send the post object to the service method to add this question to the database

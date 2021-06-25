@@ -169,7 +169,7 @@ const Register = () => {
           alert('Registered Successfully!');
           // storing user's id in the local storage
           localStorage.setItem('userId',data.userId);
-          history.pushState('/UserDashboard');
+          history.push('/UserDashboard');
         }
       });
     

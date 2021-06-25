@@ -31,3 +31,18 @@ export const uploadAnswer = async(answerData) =>{
     console.log(returnedData);
     return returnedData;
 }
+
+export const getAnswersByPostId = async(postId) =>{
+    const url = 'http://localhost:42125/api/Answers/PostId/'+postId;
+    const response = await axios.get(url);
+    const returnedData = response.data;
+    console.log(returnedData);
+    return returnedData;
+}
+
+export const updateAnswer = async(answerData) =>{
+    const url = 'http://localhost:42125/api/Answers/'+answerData.AnswerId;
+    const response = await axios.put(url, answerData);
+    console.log(response);
+    return response;
+}

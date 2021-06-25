@@ -41,6 +41,21 @@ namespace GymForum_API.Controllers
             return tblAnswer;
         }
 
+        [HttpGet("PostId/{postId}")]
+        public async Task<ActionResult<IEnumerable<TblAnswer>>> GetAnswersByPostId(int postId)
+        {
+            List<TblAnswer> answerList = new List<TblAnswer>();
+            var answers = await _context.TblAnswers.ToListAsync();
+            answers.ForEach(element =>
+            {
+                if (element.AnswerPostId == postId)
+                {
+                    answerList.Add(element);
+                }
+            });
+            return answerList;
+        }
+
         // PUT: api/TblAnswers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
